@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecionando...</title>
+    <script>
+        // Função para capturar parâmetros da URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Captura o token (e-mail) da URL
+        const email = getQueryParam('token');
+        console.log("Token capturado:", email); // Exibe o token no console
+
+        if (email) {
+            // Envia o e-mail para a planilha via Sheetmonkey
+            fetch('https://api.sheetmonkey.io/form/qJom9g4NTp6dHL1HfKSCdx', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: email, data: new Date().toLocaleString() })
+            })
+            .then(() => {
+                // Redireciona para o site final após enviar o dado
+                window.location.href = "https://www.natura.com.br/";
+            })
+            .catch((error) => {
+                console.error('Erro ao enviar dados:', error);
+            });
+        } else {
+            // Se não encontrar o token, redireciona para a home
+            window.location.href = "https://www.natura.com.br/";
+        }
+
+    </script>
+</head>
+<body>
+    <h1>Redirecionando...</h1>
+</body>
+</html>
